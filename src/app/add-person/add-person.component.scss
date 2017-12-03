@@ -1,0 +1,45 @@
+.has-error {
+    color: red;
+}
+
+.no-pad-left {
+    padding-left: 0;
+}
+
+.no-pad-right {
+    padding-right: 0;
+}
+
+.header-row {
+    color: #fff;
+    background: #000;
+    padding: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 5px #888888;
+}
+
+.form-add-person {
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px #888888;
+
+    .form-group-header {
+        background: #ddd;
+        padding: 15px 10px;
+    }
+
+    .form-group {
+        padding: 10px;
+    }
+
+    .btn-block,
+    .form-control {
+        border-radius: 0;
+    }
+}
+
+.footer-row {
+    padding: 15px 0;
+    margin-top: 25px;
+    background: #ddd;
+    border: 1px solid #ddd;
+}
