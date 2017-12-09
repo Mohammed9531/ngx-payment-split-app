@@ -1,3 +1,69 @@
-<p>
-  split-bill works!
-</p>
+<div class="row row-header">
+  <div class="col">
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary" (click)="displayAddBill = !displayAddBill">
+        <i class="fa fa-plus"></i>&nbsp;Add Bill
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-secondary">
+        <i class="fa fa-plus"></i>&nbsp;Add Individual Bill
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="displayAddBill">
+  <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+    <div class="form-horizontal">
+      <form #billingForm="ngForm" (ngSubmit)="onSubmit($event, billingForm)" novalidate>
+        <div class="form-group">
+          <label for="" class="control-label">Billing Month:</label>
+          <select [(ngModel)]="billingMonth" class="form-control" #billingMonthField="ngModel" name="billingMonthField" required>
+              <option *ngFor="let month of months"
+              [attr.selected]="month.value == months[0].value"
+              [class.selected]="month.value === 0"
+              [disabled]="month.value === 0"
+              [value]="month.value">{{month.key}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Billing Ends:</label>
+          <input type="number" name="billingDateField" class="form-control" 
+          [(ngModel)]="billingDate" #billingDateField="ngModel" required>
+          <span class="helper-text">Billing day, example: enter 1 if your billing cylcle ends on 1st of every month.</span>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Bill Amount:</label>
+          <input type="number" name="billAmtField" class="form-control" 
+          [(ngModel)]="billAmount" #billAmtField="ngModel" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-secondary" [disabled]="billingForm.invalid">Split</button>
+          <a href="#" (click)="displayAddBill=false" class="btn btn-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Billing Month</th>
+            <th *ngFor="let person of persons">{{person}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of splittedData; let i = index;">
+            <td>{{data.month}}</td>
+            <td *ngFor="let split of getKeys(data)">{{ +data[split] | currency:'USD':true}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

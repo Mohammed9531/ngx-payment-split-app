@@ -1,3 +1,13 @@
-<div class="container">
-  <add-person></add-person>
+<div class="container-fluid">
+
+  <!-- <router-outlet></router-outlet> -->
+
+  <div class="row header-row">
+    <div class="col">
+      <h2 class="text-lg-center text-md-center text-center">Split App</h2>
+    </div>
+  </div>
+    <add-person (onNextStep)="onNextStep($event)" *ngIf="persons && persons.length < 1"></add-person>
+    <split-bill [persons]="persons" *ngIf="persons && persons.length > 0"></split-bill> 
+    <!-- <split-bill [persons]="persons"></split-bill> -->
 </div>

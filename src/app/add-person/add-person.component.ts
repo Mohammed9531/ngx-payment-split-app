@@ -1,4 +1,5 @@
 import { NgForm } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -19,16 +20,23 @@ export class AddPersonComponent implements OnInit {
   @Output()
   public onNextStep: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute) {
+  }
 
   public ngOnInit(): void {
-    this.persons = ['a', 'b', 'c'];
+    this.persons = ['Shoukath', 'Sadru', 'Alam', 'Asif'];
   }
 
   public editPerson(person: string, idx: number): void {
     this.editing = true;
     this.activeIdx = idx;
     this.person = person;
+  }
+
+  public deletePerson(person: string, idx: number): void {
+    this.persons.splice(idx, 1);
   }
 
   public onSubmit(event: MouseEvent, form: NgForm): void {
@@ -46,7 +54,7 @@ export class AddPersonComponent implements OnInit {
   }
 
   public goToNextStep(event: MouseEvent): void {
-    console.log(event);
     this.onNextStep.emit(this.persons);
+    // this.router.navigate(['\split']);
   }
 }
