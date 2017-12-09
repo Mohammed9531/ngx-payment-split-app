@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="pull-left">
+          <div class="dropdown-wrapper form-inline">
+            <label for="" class="control-label">Billing Month:</label>
+            <select [(ngModel)]="billingMonth" class="form-control" #billingMonthField="ngModel" name="billingMonthField" [disabled]="freeze"
+              required>
+              <option *ngFor="let month of months"
+              [attr.selected]="month.value == months[0].value"
+              [class.selected]="month.value === 0"
+              [disabled]="month.value === 0"
+              [value]="month.value">{{month.key}}</option>
+          </select>
+          </div>
+        </div>
+        <div class="pull-right">
+          <span><i class="fa fa-pencil" (click)="freeze = !freeze"></i></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <form class="form-horizontal">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th *ngFor="let header of headers">
+                    {{header}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let resource of resources; let i = index;">
+                  <td>{{resource.name}}</td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <span *ngIf="freeze; else showInput">
+                  {{resource.base}}
+                </span>
+                    <ng-template #showInput>
+                      <input type="number" [name]="'base' + i" [(ngModel)]="resource.base">
+                    </ng-template>
+                  </td>
+                  <td>{{resource.total}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+</div>

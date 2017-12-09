@@ -7,12 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AddPersonComponent } from './add-person/add-person.component';
 import { SplitBillComponent } from './split-bill/split-bill.component';
+import { SplitFormComponent } from './split-form/split-form.component';
 
 
 const ROUTES: Routes = [
     {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/form',
         pathMatch: 'full'
     }, {
         path: 'split',
@@ -20,6 +21,9 @@ const ROUTES: Routes = [
     }, {
         path: 'dashboard',
         component: AddPersonComponent
+    }, {
+        path: 'form',
+        component: SplitFormComponent
     }
 ];
 
@@ -27,7 +31,8 @@ const ROUTES: Routes = [
   declarations: [
     AppComponent,
     AddPersonComponent,
-    SplitBillComponent
+    SplitBillComponent,
+    SplitFormComponent
   ],
   imports: [
     BrowserModule,
