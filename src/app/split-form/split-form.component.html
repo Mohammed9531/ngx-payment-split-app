@@ -11,7 +11,6 @@
               [disabled]="freeze"
               required>
               <option *ngFor="let month of months"
-              [selected]="month.value == months[0].value"
               [disabled]="month.value === 0"
               [ngValue]="month.value">{{month.key}}</option>
           </select>
@@ -23,7 +22,7 @@
       </div>
       <div class="panel-body">
         <div class="table-responsive">
-          <form class="form-horizontal">
+          <form class="form-horizontal" [formGroup]="splitForm">
             <table class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
@@ -34,24 +33,24 @@
               </thead>
               <tbody>
                 <tr *ngFor="let resource of resources; let i = index;">
-                  <td>{{resource.name}}</td>
+                  <td>{{resource.resourceName}}</td>
                   <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                    <split-form-row [isEditing]="!freeze" [name]="'basePay'" [resource]="resource"></split-form-row>
                   </td>
                   <td>
-                   <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                   <split-form-row [isEditing]="!freeze" [name]="'taxes'" [resource]="resource"></split-form-row>
                   </td>
                   <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                    <split-form-row [isEditing]="!freeze" [name]="'eip'" [resource]="resource"></split-form-row>
                   </td>
                   <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                    <split-form-row [isEditing]="!freeze" [name]="'miscServices'" [resource]="resource"></split-form-row>
                   </td>
                   <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                    <split-form-row [isEditing]="!freeze" [name]="'others'" [resource]="resource"></split-form-row>
                   </td>
                   <td>
-                   <split-form-row [isEditing]="!freeze" [name]="'base' + i" [resource]="resource"></split-form-row>
+                   <split-form-row [isEditing]="!freeze" [name]="'adjustments'" [resource]="resource"></split-form-row>
                   </td>
                   <td>{{resource.total}}</td>
                 </tr>

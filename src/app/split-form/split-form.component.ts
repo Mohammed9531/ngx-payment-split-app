@@ -1,6 +1,14 @@
-import { SplitFormModel } from './split-form.model';
 import { MONTHS } from './../app.constants';
-import { Component, OnInit } from '@angular/core';
+import { HEADERS } from './split-form.constants';
+import { SplitFormModel } from './split-form.model';
+import { Component, OnInit, Input } from '@angular/core';
+import {
+  FormGroup,
+  FormArray,
+  FormControl,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
 
 @Component({
   selector: 'split-form',
@@ -8,50 +16,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./split-form.component.scss']
 })
 export class SplitFormComponent implements OnInit {
-  public resources: any[];
   public headers: string[];
-  public billingMonth: any[];
+  public billingMonth: any;
+  public resources: any[] = [];
+
+  @Input() public profiles: any[] = [];
   public months: any[] = MONTHS;
   public freeze: boolean = false;
-  constructor() { }
+
+  constructor() {}
 
   ngOnInit() {
-   this.billingMonth = this.months[0].value;
+    this.headers = HEADERS;
+    this.buildResourceProfile();
+    this.billingMonth = this.months[0].value;
+  }
 
-    console.log(new SplitFormModel())
-
-   this.headers = [
-     'Members',
-     'Base',
-     'Taxes',
-     'EIP',
-     'Misc Services',
-     'Others',
-     'Adjustments',
-     'Total'
-   ];
-
-   this.resources = [
-      {
-        name: 'Shoukath',
-        base: 0.00,
-        taxes: 0.00,
-        eip: 0.00,
-        misc: 0.00,
-        others: 0.00,
-        adjstmts: 0.00,
-        total: 0.00
-      },
-      {
-        name: 'Sadru',
-        base: 0.00,
-        taxes: 0.00,
-        eip: 0.00,
-        misc: 0.00,
-        others: 0.00,
-        adjstmts: 0.00,
-        total: 0.00
-      }
-   ];
+  buildResourceProfile(): void {
+    for (let i = 0; i < this.profiles.length; i++) {
+      this.resources.push(
+        new SplitFormModel({
+          resourceName: this.profiles[i]
+        })
+      );
+    }
+    console.log(this.resources);
   }
 }

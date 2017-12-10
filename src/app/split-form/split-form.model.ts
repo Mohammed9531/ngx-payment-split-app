@@ -10,8 +10,8 @@ export class SplitFormModel {
     private miscServices: number;
     private resourceName: string;
 
-    public static getBillingTotal(billingInfoObj: SplitFormModel): number {
-        const bInfo: any =  billingInfoObj;
+    public static getBillingTotal(billingInfoObj: any): number {
+        const bInfo: any =  Object.assign({}, billingInfoObj);
         if (Object.keys(bInfo).length < 1) {
             return 0;
         }
