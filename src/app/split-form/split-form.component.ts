@@ -1,3 +1,4 @@
+import { SplitFormModel } from './split-form.model';
 import { MONTHS } from './../app.constants';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,11 +10,16 @@ import { Component, OnInit } from '@angular/core';
 export class SplitFormComponent implements OnInit {
   public resources: any[];
   public headers: string[];
+  public billingMonth: any[];
   public months: any[] = MONTHS;
   public freeze: boolean = false;
   constructor() { }
 
   ngOnInit() {
+   this.billingMonth = this.months[0].value;
+
+    console.log(new SplitFormModel())
+
    this.headers = [
      'Members',
      'Base',
