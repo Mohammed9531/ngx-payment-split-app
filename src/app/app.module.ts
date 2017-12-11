@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AddPersonComponent } from './add-person/add-person.component';
 import { SplitBillComponent } from './split-bill/split-bill.component';
 import { SplitFormComponent } from './split-form/split-form.component';
+import { SplitFormRowComponent } from './split-form/split-form-row/split-form-row.component';
 
 
 const ROUTES: Routes = [
@@ -32,7 +33,8 @@ const ROUTES: Routes = [
     AppComponent,
     AddPersonComponent,
     SplitBillComponent,
-    SplitFormComponent
+    SplitFormComponent,
+    SplitFormRowComponent
   ],
   imports: [
     BrowserModule,

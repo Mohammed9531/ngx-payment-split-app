@@ -10,6 +10,5 @@ export class AppComponent {
 
   public onNextStep(event: string[]): void {
     this.persons = event;
-    console.log(event);
   }
 }

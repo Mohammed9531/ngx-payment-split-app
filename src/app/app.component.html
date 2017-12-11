@@ -5,9 +5,9 @@
       <h2 class="text-lg-center text-md-center text-center">Split App</h2>
     </div>
   </div>
-    <!-- <add-person (onNextStep)="onNextStep($event)" *ngIf="persons && persons.length < 1"></add-person>
-    <split-bill [persons]="persons" *ngIf="persons && persons.length > 0"></split-bill> -->
+    <add-person (onNextStep)="onNextStep($event)" *ngIf="persons && persons.length < 1"></add-person>
+    <!--<split-bill [persons]="persons" *ngIf="persons && persons.length > 0"></split-bill> -->
 
-    <split-form></split-form>
+    <split-form *ngIf="persons && persons.length > 1" [profiles]="persons"></split-form>
     <!-- <split-bill [persons]="persons"></split-bill> -->
 </div> 
