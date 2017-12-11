@@ -1,6 +1,6 @@
 import { MONTHS } from './../app.constants';
-import { HEADERS } from './split-form.constants';
 import { SplitFormModel } from './split-form.model';
+import { HEADERS, KEYS } from './split-form.constants';
 import { Component, OnInit, Input } from '@angular/core';
 import {
   FormGroup,
@@ -16,20 +16,30 @@ import {
   styleUrls: ['./split-form.component.scss']
 })
 export class SplitFormComponent implements OnInit {
+  public keys: any[];
   public headers: string[];
   public billingMonth: any;
   public resources: any[] = [];
 
-  @Input() public profiles: any[] = [];
-  public months: any[] = MONTHS;
+  @Input()
+  public profiles: any[] = [];
+  public months: any[] = [...MONTHS];
   public freeze: boolean = false;
 
-  constructor() {}
+  public splitFormGroup: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.headers = HEADERS;
+    this.keys = [...KEYS];
+    this.headers = [...HEADERS];
     this.buildResourceProfile();
-    this.billingMonth = this.months[0].value;
+
+    this.splitFormGroup = new FormGroup({
+      billingData: new FormArray([]),
+      billingMonth: new FormControl(this.months[0].value, [Validators.required])
+    });
+    this.buildForm();
   }
 
   buildResourceProfile(): void {
@@ -40,6 +50,62 @@ export class SplitFormComponent implements OnInit {
         })
       );
     }
-    console.log(this.resources);
+  }
+
+  buildForm(): void {
+    const splitFormCtrls = <FormArray>this.splitFormGroup.controls['billingData'];
+
+    this.resources.forEach((resource: SplitFormModel): void => {
+      splitFormCtrls.push(this.buildIndividualForm(resource));
+    });
+  }
+
+  buildIndividualForm(resource: any): FormGroup {
+    return this.fb.group({
+      resourceName: [resource.resourceName],
+      taxes: [resource.taxes],
+      eip: [resource.eip],
+      total: [resource.total],
+      basePay: [resource.basePay],
+      adjustments: [resource.adjustments],
+      others: [resource.others],
+      miscServices: [resource.miscServices]
+    });
+  }
+
+  onSubmit(event: MouseEvent, form: FormGroup): void {
+    this.freeze = !this.freeze;
+    this.updateView(this.freeze);
+  }
+
+  getResource(resource: SplitFormModel): void {
+    // console.log(resource);
+  }
+
+  onModelChange(e: any, idx: number): void {
+    const ev: any = <HTMLInputElement>e;
+    this.resources[idx]['total'] += +(ev.target.value);
+    this.updateTotal(idx);
+  }
+
+  updateTotal(idx: number): void {
+    let total: number = 0;
+    const formArr: FormArray = this.splitFormGroup.get('billingData') as FormArray;
+    const activeProfile: any = formArr.controls[idx];
+
+    Object.keys(activeProfile.controls).forEach(control => {
+      const actCtrl: any = activeProfile.get(control).value;
+
+      if (typeof actCtrl === 'number' && control !== 'total') {
+        total += actCtrl;
+      }
+    });
+    activeProfile.get('total').setValue(total).markAsDirty();
+  }
+
+  updateView(display: boolean): void {
+    this.keys.forEach(key => {
+      key.hideInput = display;
+    });
   }
 }

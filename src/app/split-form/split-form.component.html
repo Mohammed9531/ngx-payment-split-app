@@ -1,28 +1,29 @@
 <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="pull-left">
-          <div class="dropdown-wrapper form-inline">
-            <label for="" class="control-label">Billing Month:</label>
-            <select [(ngModel)]="billingMonth" class="form-control" 
-              #billingMonthField="ngModel" 
-              [name]="billingMonthField" 
-              [disabled]="freeze"
-              required>
-              <option *ngFor="let month of months"
-              [disabled]="month.value === 0"
-              [ngValue]="month.value">{{month.key}}</option>
+    <form class="form-horizontal" [formGroup]="splitFormGroup" (ngSubmit)="onSubmit($event, splitFormGroup)">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="pull-left">
+            <div class="dropdown-wrapper form-inline">
+              <label for="" class="control-label">Billing Month:</label>
+
+              <select formControlName="billingMonth" class="form-control" [disabled]="freeze" required>
+
+              <option 
+                *ngFor="let month of months"
+                [disabled]="month.value === 0"
+                [ngValue]="month.value">{{month.key}}
+              </option>
           </select>
+            </div>
+          </div>
+          <div class="pull-right">
+            <!-- <span><i type="submit" class="fa fa-pencil" (click)="freeze = !freeze;"></i></span> -->
+            <button type="submit">Submit</button>
           </div>
         </div>
-        <div class="pull-right">
-          <span><i class="fa fa-pencil" (click)="freeze = !freeze"></i></span>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="table-responsive">
-          <form class="form-horizontal" [formGroup]="splitForm">
+        <div class="panel-body" formArrayName="billingData">
+          <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
@@ -32,34 +33,28 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let resource of resources; let i = index;">
-                  <td>{{resource.resourceName}}</td>
-                  <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'basePay'" [resource]="resource"></split-form-row>
+                <tr [formGroupName]="i" *ngFor="let resource of splitFormGroup?.controls?.billingData?.controls; let i = index;">
+                  <td *ngFor="let key of keys" (click)="getResource(resource)">
+                    <div class="split-form-row">
+                      <span [hidden]="(!key.hideInput && !key.hideAlways) || (!key.hideInput && key.hideAlways)">{{resource?.controls[key.keyName].value}}</span>
+                      <input type="number" 
+                      [formControlName]="key['keyName']"
+                      [(ngModel)]="resource.controls[key.keyName].value" 
+                      [hidden]="(key.hideInput && !key.hideAlways) || (key.hideInput && key.hideAlways)"
+                      (change)="onModelChange($event, i)"
+                      >
+                    </div>
                   </td>
-                  <td>
-                   <split-form-row [isEditing]="!freeze" [name]="'taxes'" [resource]="resource"></split-form-row>
-                  </td>
-                  <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'eip'" [resource]="resource"></split-form-row>
-                  </td>
-                  <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'miscServices'" [resource]="resource"></split-form-row>
-                  </td>
-                  <td>
-                    <split-form-row [isEditing]="!freeze" [name]="'others'" [resource]="resource"></split-form-row>
-                  </td>
-                  <td>
-                   <split-form-row [isEditing]="!freeze" [name]="'adjustments'" [resource]="resource"></split-form-row>
-                  </td>
-                  <td>{{resource.total}}</td>
                 </tr>
               </tbody>
             </table>
-          </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <!-- <pre>{{splitFormGroup | json}}</pre> -->
+          <!-- <pre>{{resources | json}}</pre> -->
         </div>
       </div>
-      <div class="panel-footer"></div>
-    </div>
+    </form>
   </div>
 </div>

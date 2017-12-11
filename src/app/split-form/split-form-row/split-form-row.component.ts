@@ -1,3 +1,4 @@
+import { FormGroup, FormGroupName, ControlContainer, FormArray } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,6 +9,12 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SplitFormRowComponent implements OnInit {
 
   @Input()
+  public form: FormGroup;
+
+  @Input()
+  public groupName: FormGroupName;
+
+  @Input()
   public resource: any = {};
 
   @Input()
@@ -16,7 +23,9 @@ export class SplitFormRowComponent implements OnInit {
   @Input()
   public isEditing: boolean = false;
 
-  constructor() { }
+  constructor(private controlContainer: ControlContainer) { }
 
-  ngOnInit() {}
+  ngOnInit():void {
+    this.form = <FormGroup>this.controlContainer.control;
+  }
 }
