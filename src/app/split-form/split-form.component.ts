@@ -37,7 +37,10 @@ export class SplitFormComponent implements OnInit {
 
     this.splitFormGroup = new FormGroup({
       billingData: new FormArray([]),
-      billingMonth: new FormControl(this.months[0].value, [Validators.required])
+      billingMonth: new FormControl({
+        value: this.months[0].value,
+        disabled: false
+      }, [Validators.required])
     });
     this.buildForm();
   }
@@ -78,10 +81,6 @@ export class SplitFormComponent implements OnInit {
     this.updateView(this.freeze);
   }
 
-  getResource(resource: SplitFormModel): void {
-    // console.log(resource);
-  }
-
   onModelChange(e: any, idx: number): void {
     const ev: any = <HTMLInputElement>e;
     this.resources[idx]['total'] += +(ev.target.value);
@@ -100,12 +99,16 @@ export class SplitFormComponent implements OnInit {
         total += actCtrl;
       }
     });
-    activeProfile.get('total').setValue(total).markAsDirty();
+    activeProfile.get('total').setValue(total);
   }
 
   updateView(display: boolean): void {
+    this.splitFormGroup.get('billingMonth')[display ? 'disable' : 'enable']();
+
     this.keys.forEach(key => {
-      key.hideInput = display;
+      if (!key.hideAlways) {
+        key.hideInput = display;
+      }
     });
   }
 }

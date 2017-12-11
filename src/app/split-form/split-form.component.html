@@ -7,8 +7,7 @@
             <div class="dropdown-wrapper form-inline">
               <label for="" class="control-label">Billing Month:</label>
 
-              <select formControlName="billingMonth" class="form-control" [disabled]="freeze" required>
-
+              <select formControlName="billingMonth" class="form-control">
               <option 
                 *ngFor="let month of months"
                 [disabled]="month.value === 0"
@@ -34,13 +33,13 @@
               </thead>
               <tbody>
                 <tr [formGroupName]="i" *ngFor="let resource of splitFormGroup?.controls?.billingData?.controls; let i = index;">
-                  <td *ngFor="let key of keys" (click)="getResource(resource)">
+                  <td *ngFor="let key of keys">
                     <div class="split-form-row">
                       <span [hidden]="(!key.hideInput && !key.hideAlways) || (!key.hideInput && key.hideAlways)">{{resource?.controls[key.keyName].value}}</span>
                       <input type="number" 
                       [formControlName]="key['keyName']"
                       [(ngModel)]="resource.controls[key.keyName].value" 
-                      [hidden]="(key.hideInput && !key.hideAlways) || (key.hideInput && key.hideAlways)"
+                      [hidden]="(key.hideInput && key.hideAlways) || (key.hideInput && !key.hideAlways)"
                       (change)="onModelChange($event, i)"
                       >
                     </div>
